@@ -7,5 +7,6 @@ from users.views import login
 urlpatterns = [
     path('',login.login_redirect,name='login_redirect'),
     path('login',login.login_view,name='login_view'),
+    path('logout',login.logout_view,name='logout'),
 
 ]

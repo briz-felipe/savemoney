@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -23,11 +23,13 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('users:home')  # Redireciona após sucesso
+            return redirect('home:home')  # Redireciona após sucesso
         else:
             messages.error(request, "Nome de usuário ou senha incorretos.")
 
     return render(request, "users/auth/login.html")
 
-def home(request):
-    pass
+
+def logout_view(request):
+    logout(request)
+    return redirect('users:login_view') 
