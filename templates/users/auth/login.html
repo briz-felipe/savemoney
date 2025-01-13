@@ -1,0 +1,45 @@
+{% extends "base/user.html" %}
+{% load static %}
+
+{% block title %}Login - SaveMoney{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
+        <div class="text-center mb-4">
+            <h2>SaveMoney</h2>
+            <p class="text-muted">Economize mais, conquiste seus objetivos.</p>
+        </div>
+        <form method="POST" action="{% url 'users:login_view' %}">
+            {% csrf_token %}
+            {% include 'base/alertas.html' %}
+            <div class="mb-3">
+                <label for="usernameOrEmail" class="form-label">Username ou E-mail</label>
+                <input type="text" class="form-control" name="usernameOrEmail" id="usernameOrEmail" placeholder="Digite seu username ou e-mail" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Digite sua senha" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </div>
+            <div class="text-center mt-3">
+                <a href="#" class="text-decoration-none">Esqueci minha senha</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Script para redirecionar após login bem-sucedido -->
+<script>
+    document.body.addEventListener('htmx:afterRequest', (event) => {
+        if (event.detail.xhr.status === 200) {
+            const response = JSON.parse(event.detail.xhr.responseText);
+            if (response.redirect_url) {
+                window.location.href = response.redirect_url;
+            }
+        }
+    });
+</script>
+{% endblock %}
