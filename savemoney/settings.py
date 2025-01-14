@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     #apps
     'users',
     'home',
-    'banks'
+    'banks',
+    # libs
+    'colorfield',
 ]
 
 MIDDLEWARE = [
