@@ -1,3 +1,13 @@
 from django.shortcuts import render
+from .forms import BanksForm
 
-# Create your views here.
+def create_bank(request):
+    
+    if request.method == 'POST':
+        form = BanksForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = BanksForm()
+    
+    return render(request, 'banks/create_bunk/index.html', {'form': form})
