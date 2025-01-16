@@ -30,6 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['0.0.0.0']
 
 
+SUPERUSER_USERNAME = 'django-admin'
+SUPERUSER_PASSWORD = 'Mudar@1234'
+
+
 # Application definition
 
 INSTALLED_APPS = [
