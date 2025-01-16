@@ -95,7 +95,7 @@ No diretório onde o `Dockerfile` está localizado, execute o comando para **bui
 ```bash
 docker build -t savemoney .
 ```
-### 2. Rodar a imagem Docker
+### 8. Rodar a imagem Docker
 Depois de buildar a imagem, você pode rodá-la com o seguinte comando:
 
 ```bash
