@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'banks',
     # libs
     'colorfield',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [

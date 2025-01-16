@@ -7,28 +7,56 @@
 <div class="container mt-5">
     <h1 class="d-flex justify-content-center">
         Meus bancos 
-        <span><i class="bi bi-bank2"></i></span>
+        &nbsp;<span><i class="bi bi-bank2"></i></span>
     </h1>
+    <!-- Modal Trigger Button -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
+        <i class="bi bi-clipboard-plus-fill"></i>
+    </button>
     <hr>
     <div class="row">
-        <!-- Exemplo de repetição de cards -->
         {% for banco in bancos %}
+        {% if color %}
+            <span id="card-color-{{ banco.id }}-{{ banco.color }}" style="display:none;"></span>
+        {% endif %}
         <div class="col-md-4 col-lg-2 mb-4">
-            <div class="card shadow-sm h-100">
+            <div id="{{ banco.id }}" class="card shadow-sm h-100">
                 <div class="card-body">
                     <h5 class="card-title">{{ banco.nome }}</h5>
                     <p class="card-text">{{ banco.descricao }}</p>
                 </div>
                 <div class="card-footer bg-white border-0">
                     <div class="btn-group d-flex justify-content-end" role="group" aria-label="Opções">
-                        <a href="{% url 'ver_banco' banco.id %}" class="btn btn-outline-primary btn-sm">Ver</a>
-                        <a href="{% url 'editar_banco' banco.id %}" class="btn btn-outline-secondary btn-sm">Editar</a>
-                        <a href="{% url 'deletar_banco' banco.id %}" class="btn btn-outline-danger btn-sm">Deletar</a>
+                        <a class="btn btn-outline-primary btn-sm">Ver</a>
+                        <a class="btn btn-outline-secondary btn-sm">Editar</a>
+                        <a class="btn btn-outline-danger btn-sm">Deletar</a>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
+        </div>        
+    {% endfor %}
     </div>
 </div>
+<script src='{% static "js/bank/main.js" %}' language="JavaScript" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+    // Procura todos os spans com o prefixo 'card-color-'
+    $("span[id^='card-color-']").each(function() {
+        // Extrai o ID do span
+        var spanId = $(this).attr("id");
+        
+        // Pega a cor, que está no último segmento do ID (após o último '-')
+        var corCard = spanId.split('-').pop();
+        
+        // Extrai o ID do card (que é o primeiro segmento do ID)
+        var bancoId = spanId.split('-')[2];
+        
+        // Aplica a cor ao card correspondente
+        $("#" + bancoId).css("background-color", corCard);
+    });
+});
+</script>
+{% include "modals/bank/create.html" %}
+
+
 {% endblock %}

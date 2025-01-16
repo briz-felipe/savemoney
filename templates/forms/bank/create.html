@@ -1,0 +1,25 @@
+{% load widget_tweaks %}
+{% csrf_token %}
+
+<div class="mb-3">
+    <label for="name">Nome:</label>
+    <input id="name" name="name" type="text" class="form-control">
+</div>
+
+<div class="mb-3">
+    <label for="desciption">Descrição:</label>
+    <textarea class="form-control" id="desciption" name="desciption" rows="3"></textarea>
+</div>
+
+<div class="mb-3">
+    <label for="number">Número do banco:</label>
+    <input id="number" name="number" type="number" class="form-control">
+</div>
+
+<div class="mb-3">
+    <label for="number">Cor:</label>
+    <input type="color" class="form-control form-control-color" id="bank-color" name="bank-color" value="#FFFFFF">
+    <small class="text-muted">Configurar cor padrão para diferenciar seus bancos</small>
+</div>
+
+<button type="button" id="btn-create-bank" class="btn btn-primary text-center">Continuar</button>
