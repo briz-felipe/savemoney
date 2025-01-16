@@ -22,6 +22,8 @@ Antes de começar, você precisa ter instalado:
 - [Python 3.x](https://www.python.org/downloads/)
 - [Pip](https://pip.pypa.io/en/stable/)
 - [Git](https://git-scm.com/)
+- [Docker](https://www.docker.com/get-started) (para rodar o projeto em containers)
+
 
 ## Instalação
 
@@ -87,3 +89,17 @@ Para acessar o painel administrativo do Django, use as credenciais do superusuá
 ```
 http://127.0.0.1:8000/admin
 ```
+
+### 7.  Buildar a imagem Docker
+No diretório onde o `Dockerfile` está localizado, execute o comando para **buildar** a imagem com o nome `savemoney`:
+```bash
+docker build -t savemoney .
+```
+### 2. Rodar a imagem Docker
+Depois de buildar a imagem, você pode rodá-la com o seguinte comando:
+
+```bash
+docker run -p 8000:8000 savemoney
+```
+
+Isso fará com que o Django rode no container e fique acessível em `http://localhost:8000`.
