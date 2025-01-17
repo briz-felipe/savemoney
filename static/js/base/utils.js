@@ -265,22 +265,31 @@ function create_bank_table(data, empty = true) {
                 <div class="btn-group btn-group-sm" role="group" aria-label="Voucher Actions">
                     <!-- Botão Ver -->
                     <a
-                        id="view_voucher_btn"
+                        id="view_bank_${data[bank]['id']}"
                         type="button"
                         class="btn btn-outline-secondary"
-                        title="Visualizar Voucher"
-                        data-bs-toggle="modal"
-                        data-bs-target="#view_voucher_modal"
+                        title="Visualizar banco"
                     >
                         <i class="bi bi-eye-fill"></i>
                     </a>
+
+                    <!-- Botão add card -->
+                    <a
+                        id="add_card_${data[bank]['id']}"
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        title="add cartao"
+                    >
+                        <i class="bi bi-credit-card-2-back-fill"></i>
+                    </a>
+                    
 
                     <!-- Botão Editar -->
                     <a
                         id="update_bank_btn_${data[bank]['id']}"
                         type="button"
                         class="btn btn-outline-secondary"
-                        title="Editar Voucher"
+                        title="Editar banco"
                     >
                         <i class="bi bi-pencil-fill"></i>
                     </a>
@@ -296,10 +305,11 @@ function create_bank_table(data, empty = true) {
                     </a>
                 </div>
             </div>
-            <div class="d-flex justify-content-start mb-4">
+            <div class="d-flex justify-content-between mb-4">
             
                 <!-- Título do Card -->
                 <h3 class="mb-0">${data[bank]['name']}</h3>
+
 
             </div>
 
