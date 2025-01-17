@@ -200,3 +200,141 @@ function showAlert(msg,status){
     toastElement.show(); // Exibe o elemento Toast
     toast.show(); // Mostra o Toast com Bootstrap
 }
+
+// Define o evento no botão dinamicamente
+function setEventById(elementId, functionName, data) {
+    console.log("Entrou " + elementId);
+    const element = $("#" + elementId);
+
+    // Montar os parâmetros para a função
+    const params = Object.values(data)
+        .map((value) => JSON.stringify(value)) // Garantir formatação
+        .join(", ");
+
+    // Remover qualquer evento 'click' anterior
+    element.off("click");
+
+    // Adicionar o evento 'click'
+    element.on("click", function () {
+        window[functionName](...Object.values(data));
+    });
+}
+
+async function get_banks(){
+    ajaxFunction(
+        'api/banks',
+        'GET',
+    ).then((response)=>{
+        if(response.status){
+            console.log(response.data)
+            create_bank_table(response.data.bancos)
+
+        }
+    })
+};
+
+
+function create_bank_table(data, empty = true) {
+    const table = $("#bank_table")
+    if (empty) {
+        table.empty();
+    }
+    for (const bank in data) {
+        console.log(data)
+
+        const bank_active = data[bank]['is_active']
+
+        table.append(
+            `  
+           <div class="col-md-4" style="display: ${bank_active ? 'block' : 'none'};">
+    <div class="card p-2 mb-4 shadow-sm rounded">
+        <div class="card-body">
+
+            <!-- Cabeçalho do Card -->
+            <!-- Botões de Ação -->
+            <div class="d-flex justify-content-between mb-2">
+                
+                <!-- Ícone Dinâmico com Cor -->
+                <i class="bi bi-circle-fill" 
+                    style="color: ${data[bank]['color']}; font-size: 20px;">
+                </i>
+            
+                <div class="btn-group btn-group-sm" role="group" aria-label="Voucher Actions">
+                    <!-- Botão Ver -->
+                    <a
+                        id="view_voucher_btn"
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        title="Visualizar Voucher"
+                        data-bs-toggle="modal"
+                        data-bs-target="#view_voucher_modal"
+                    >
+                        <i class="bi bi-eye-fill"></i>
+                    </a>
+
+                    <!-- Botão Editar -->
+                    <a
+                        id="edit_voucher_btn"
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        title="Editar Voucher"
+                        data-bs-toggle="modal"
+                        data-bs-target="#edit_voucher_modal"
+                    >
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+
+                    <!-- Botão Deletar -->
+                    <a
+                        id="delete_bank_btn_${data[bank]['id']}"
+                        type="button"
+                        class="btn btn-outline-danger"
+                        title="Deletar bank"
+                    >
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start mb-4">
+            
+                <!-- Título do Card -->
+                <h3 class="mb-0">${data[bank]['name']}</h3>
+
+            </div>
+
+            <hr>
+
+            <!-- Descrição do Voucher -->
+            <div class="mt-3">
+                <p class="text-muted">${data[bank]['description']}</p>
+            </div>
+        </div>
+    </div>
+</div>
+        `
+        )
+    };
+
+}
+
+
+async function deleteBank(bankId){
+    const csrf_token = getCsfrToken()
+    data = {
+        "csrfmiddlewaretoken":csrf_token
+    }
+    const response = await ajaxFunction(
+        'api/delete/'+bankId,
+        'POST',
+        data
+    )
+
+    if(response.status){
+        get_banks()
+        $('#btn-close-delete-bank').click()
+        showAlert(response.message,true)
+    }
+    console.log(response)
+    return response
+}
+

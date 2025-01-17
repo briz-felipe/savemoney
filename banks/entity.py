@@ -12,9 +12,17 @@ class BankEntity:
     is_active: Optional[bool] = True
     number: Optional[int] = None
     color: Optional[str] = "#FFFFFF"
+    
+    def __post_init__(self)->None:
+        if self.name_exists():
+            raise ValueError(f'Banco:({self.name}) já foi criado e está ativo ainda.')
 
     def __str__(self) -> str:
         return f"{self.name}"
+    
+    def name_exists(self)->bool:
+        bank = Banks.objects.filter(user=self.user,name=self.name,is_active=True)       
+        return bank.exists()
 
     def create(self) -> Banks:
         """
