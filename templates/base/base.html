@@ -114,9 +114,13 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Meu Projeto. Todos os direitos reservados.</p>
+        <p>&copy; 2025 PROCEDER | SaveMone.</p>
     </footer>
 
     {% block extra_scripts %}{% endblock %}
+
+    {% include "base/success_toast.html" %}
+    {% include "base/error_toast.html" %}
+
 </body>
 </html>

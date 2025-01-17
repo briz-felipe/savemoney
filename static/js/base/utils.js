@@ -41,6 +41,7 @@ async function ajaxFunction(url, type, data = false) {
 }
 
 function formCheckByDict(data) {
+    console.log(data)
     // Preciso enviar um dict com chave com o mesmo valor do id do input que será validado
     let invalidCount = 0;
 
@@ -69,15 +70,25 @@ function formCheckByDict(data) {
 function clearFormById(form_id) {
     var form = $('#' + form_id);
 
-    // Limpar campos de texto e e-mail dentro do formulário
-    form.find('input[type="text"], input[type="email"]').val('');
+    // Certifique-se de que o form é encontrado
+    if (form.length === 0) {
+        console.error(`Formulário com ID "${form_id}" não encontrado.`);
+        return;
+    }
+
+    // Limpar campos de texto, e-mail e textarea dentro do formulário
+    form.find('input[type="text"], input[type="email"], textarea').val('');
 
     // Limpar selects dentro do formulário
     form.find('select').prop('selectedIndex', 0);
 
     // Desmarcar todos os checkboxes dentro do formulário
     form.find('input[type="checkbox"]').prop('checked', false);
+
+    console.log(`Formulário com ID "${form_id}" foi limpo.`);
 }
+
+
 
 
 function fillForm(data,formId) {
@@ -175,4 +186,17 @@ function paramsToDict(queryString){
     });
 
     return paramsObj
+}
+
+
+function showAlert(msg,status){
+    const toastAlert = status ? '#successToast' : '#errorToast'
+    const toastElement = $(toastAlert)
+    const toastMsg = `#${status?'success':'error'}-toast-msg`
+    const msgElement = $(toastMsg)
+    
+    msgElement.html(msg)
+    const toast = new bootstrap.Toast(toastElement[0]); // Inicializa o Toast com Bootstrap
+    toastElement.show(); // Exibe o elemento Toast
+    toast.show(); // Mostra o Toast com Bootstrap
 }
