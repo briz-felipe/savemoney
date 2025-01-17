@@ -44,6 +44,32 @@ $(document).ready(()=>{
         // Abrir a modal (opcional se não for gerenciado pelo atributo data-bs-toggle)
         $("#deleteBankModal").modal("show");
     });
+
+
+    $(document).on("click", "[id^='update_bank_btn_']", function () {
+        // Pegar o ID do botão clicado
+        const buttonId = $(this).attr("id");
+
+        // Extrair o 'bankid' do final do ID do botão
+        const bankId = buttonId.split("_").pop();
+
+        // Configurar o botão 'btn-delet-bank' dentro da modal com o evento correto
+        setEventById("btn-create-bank", "updateBank", { id: bankId });
+        $("#btn-create-bank").html("Atualizar")
+
+        ajaxFunction(
+            'api/get/'+bankId,
+            'GET',
+        ).then(response => {
+            console.log(response)
+            fillForm(response.data['banco'],'form-create-bank')
+        })
+
+        // Abrir a modal (opcional se não for gerenciado pelo atributo data-bs-toggle)
+        $("#model-create-bank").modal("show");
+    });
+
+    
     
 
     btn_create_bank.click(e=>{

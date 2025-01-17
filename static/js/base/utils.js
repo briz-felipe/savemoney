@@ -91,7 +91,7 @@ function clearFormById(form_id) {
 
 
 
-function fillForm(data,formId) {
+function fillForm(data, formId) {
     const form = $('#' + formId);
     for (const key in data) {
         if (data.hasOwnProperty(key)) {
@@ -100,6 +100,8 @@ function fillForm(data,formId) {
                 const type = element.attr('type');
                 if (type === 'checkbox') {
                     element.prop('checked', data[key]);
+                } else if (type === 'color') {
+                    element.val(data[key] || "#FFFFFF"); // Define valor padrão se não fornecido
                 } else {
                     element.val(data[key]);
                 }
@@ -107,6 +109,7 @@ function fillForm(data,formId) {
         }
     }
 }
+
 
 function valueToClipboard(value, element) {
     // Cria um elemento de texto temporário
@@ -274,12 +277,10 @@ function create_bank_table(data, empty = true) {
 
                     <!-- Botão Editar -->
                     <a
-                        id="edit_voucher_btn"
+                        id="update_bank_btn_${data[bank]['id']}"
                         type="button"
                         class="btn btn-outline-secondary"
                         title="Editar Voucher"
-                        data-bs-toggle="modal"
-                        data-bs-target="#edit_voucher_modal"
                     >
                         <i class="bi bi-pencil-fill"></i>
                     </a>
@@ -318,6 +319,27 @@ function create_bank_table(data, empty = true) {
 }
 
 
+
+async function updateBank(bankId){
+    const csrf_token = getCsfrToken()
+    data = {
+        "csrfmiddlewaretoken":csrf_token
+    }
+    const response = await ajaxFunction(
+        'api/update/'+bankId,
+        'POST',
+        data
+    )
+
+    if(response.status){
+        get_banks()
+        $('#btn-close-update-bank').click()
+        showAlert(response.message,true)
+    }
+    return response
+}
+
+
 async function deleteBank(bankId){
     const csrf_token = getCsfrToken()
     data = {
@@ -334,7 +356,6 @@ async function deleteBank(bankId){
         $('#btn-close-delete-bank').click()
         showAlert(response.message,true)
     }
-    console.log(response)
     return response
 }
 

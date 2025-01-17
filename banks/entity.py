@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 @dataclass
 class BankEntity:
+    id : Optional[int] = None
     user: Optional[User] = None
     name: str = ""
     description: str = ""
@@ -37,7 +38,29 @@ class BankEntity:
             db_instance.save()
             return db_instance
         except Exception as e:
-            raise ValueError(f"Erro ao criar Bank: {e}")
+            raise ValueError(f"Erro ao criar o banco:({self.name})")
+
+    def update(self) -> Banks:
+        # Filtra os campos válidos para atualização
+        data = {k: v for k, v in asdict(self).items() if v != '' and k != 'id'}
+        
+        try:
+            # Busca a instância no banco de dados pelo ID
+            db_instance = Banks.objects.get(id=self.id)
+            
+            # Atualiza os campos na instância do modelo
+            for key, value in data.items():
+                setattr(db_instance, key, value)
+            
+            # Salva as alterações no banco de dados
+            db_instance.save()
+            return db_instance
+        
+        except Banks.DoesNotExist:
+            raise ValueError(f'Banco com ID {self.id} não encontrado.')
+        except Exception as e:
+            raise ValueError(f'Erro ao editar o banco:({self.name}). Detalhes: {str(e)}')
+
 
     @staticmethod
     def from_model(bank_model: Banks) -> "BankEntity":
