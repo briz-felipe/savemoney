@@ -13,10 +13,6 @@ class BankEntity:
     is_active: Optional[bool] = True
     number: Optional[int] = None
     color: Optional[str] = "#FFFFFF"
-    
-    def __post_init__(self)->None:
-        if self.name_exists():
-            raise ValueError(f'Banco:({self.name}) já foi criado e está ativo ainda.')
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -30,6 +26,9 @@ class BankEntity:
         Cria uma instância do modelo `Banks` com base nos dados da entidade e salva no banco de dados.
         Retorna a instância salva.
         """
+        if self.name_exists():
+            raise ValueError(f'Banco:({self.name}) já foi criado e está ativo ainda.')
+        
         # Filtrar apenas campos válidos
         data = {k: v for k, v in asdict(self).items() if v!=''}
         # Criar e salvar a instância do modelo

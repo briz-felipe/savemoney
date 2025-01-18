@@ -19,6 +19,7 @@ def get_banks(request):
 def get_bank(request,bank_id):
     context = {}
     context['banco'] = Banks.objects.filter(id=bank_id).values("name","description","color").first()
+    context['banco'] = {f'bank_{k}':v for k,v in context['banco'].items()}
     return JsonResponse({
         'status':True,
         'data':context
@@ -32,7 +33,7 @@ def create(request):
 @login_required
 def update(request, bank_id):
     data = request.POST.dict()  # Ou outra origem de dados
-    data['id'] = bank_id
+    data['bank_id'] = bank_id
     return process_bank(data, request.user, lambda bank: bank.update())
     
 @login_required

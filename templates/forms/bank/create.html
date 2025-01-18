@@ -2,24 +2,27 @@
 {% csrf_token %}
 
 <div class="mb-3">
-    <label for="name">Nome:</label>
-    <input id="name" name="name" type="text" class="form-control">
+    <label for="bank_name">Nome:</label>
+    <input id="bank_name" name="bank_name" type="text" class="form-control">
 </div>
 
 <div class="mb-3">
-    <label for="description">Descrição:</label>
-    <textarea class="form-control" id="description" name="description" rows="3" maxlength="44" style="width: 100%;"></textarea>
+    <label for="bank_description">Descrição:</label>
+    <textarea class="form-control" id="bank_description" name="bank_description" rows="3" maxlength="44" style="width: 100%;"></textarea>
 </div>
 
 <div class="mb-3">
-    <label for="number">Número do banco:</label>
-    <input id="number" name="number" type="number" class="form-control">
+    <label for="bank_number">Número do banco:</label>
+    <input id="bank_number" name="bank_number" type="number" class="form-control">
 </div>
 
 <div class="mb-3">
-    <label for="color">Cor:</label>
-    <input type="color" class="form-control form-control-color" id="color" name="color" value="#FFFFFF">
+    <label for="bank_color">Cor:</label>
+    <input type="color" class="form-control form-control-color" id="bank_color" name="bank_color" value="#FFFFFF">
     <small class="text-muted">Configurar cor padrão para diferenciar seus bancos</small>
 </div>
 
-<button type="button" id="btn-create-bank" class="btn btn-primary text-center">Continuar</button>
+<hr>
+
+<button type="button" id="btn-create-bank" class="btn btn-primary text-center mt-1">Continuar</button>
+<button type="button" id="btn-update-bank" class="btn btn-primary text-center mt-1" style="display: none;">Atualizar</button>

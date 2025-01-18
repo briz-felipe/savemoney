@@ -1,4 +1,5 @@
 async function create_bank(data){
+
     ajaxFunction(
         'api/create',
         'POST',
@@ -25,6 +26,17 @@ async function create_bank(data){
 };
 
 $(document).ready(()=>{
+
+    $('#model-create-bank').on('hidden.bs.modal', function () {
+        clearFormById("form-create-bank")
+        $('#btn-create-bank').removeAttr('onclick');
+
+        $("#btn-create-bank").show()
+        $("#btn-update-bank").hide()
+    });
+
+    
+
     var btn_create_bank = $('#btn-create-bank')
     
     get_banks()
@@ -45,6 +57,18 @@ $(document).ready(()=>{
         $("#deleteBankModal").modal("show");
     });
 
+    
+    $(document).on("click", "[id^='add_card_']", function () {
+        const buttonId = $(this).attr("id");
+
+        // Extrair o 'bankid' do final do ID do botão
+        const bankId = buttonId.split("_").pop();
+
+        $("#model-create-card").modal("show");
+        $('#model-create-card').removeAttr('aria-hidden');
+        
+
+    });
 
     $(document).on("click", "[id^='update_bank_btn_']", function () {
         // Pegar o ID do botão clicado
@@ -54,19 +78,22 @@ $(document).ready(()=>{
         const bankId = buttonId.split("_").pop();
 
         // Configurar o botão 'btn-delet-bank' dentro da modal com o evento correto
-        setEventById("btn-create-bank", "updateBank", { id: bankId });
-        $("#btn-create-bank").html("Atualizar")
+        setEventById("btn-update-bank", "updateBank", { id: bankId });
 
         ajaxFunction(
             'api/get/'+bankId,
             'GET',
         ).then(response => {
-            console.log(response)
+            console.log(response.data['banco'])
             fillForm(response.data['banco'],'form-create-bank')
         })
 
         // Abrir a modal (opcional se não for gerenciado pelo atributo data-bs-toggle)
+        $("#btn-create-bank").hide()
+        $("#btn-update-bank").show()
+
         $("#model-create-bank").modal("show");
+        $('#model-create-card').removeAttr('aria-hidden');
     });
 
     

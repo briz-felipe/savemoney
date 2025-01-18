@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'home',
     'banks',
     'services',
-    'cards,'
+    'cards',
     # libs
     'colorfield',
     'widget_tweaks',

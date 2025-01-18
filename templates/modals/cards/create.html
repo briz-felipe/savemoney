@@ -1,0 +1,17 @@
+    <!-- Modal -->
+    <div class="modal fade" id="model-create-card" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Cadastrar forma de pagamento.</h5>
+                    <button id="btn-close-create-card" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <small class="text-muted">Usa uma forma de pagamento para melhor segmentar seus lançamentos.</small>
+                    <form id="form-create-card" class="mt-3">
+                        {% include "forms/cards/create.html" %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

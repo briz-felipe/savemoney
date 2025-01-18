@@ -1,0 +1,16 @@
+{% load widget_tweaks %}
+{% csrf_token %}
+
+<div class="mb-3">
+    <label for="card_name">Apelido do cartão:</label>
+    <input id="card_name" name="card_name" type="text" class="form-control">
+</div>
+
+<select id="select-card" class="form-select" aria-label="card type">
+    <option value="debit" selected>Débito</option>
+    <option value="credit">Crédito</option>
+    <option value="VA">VA</option>
+    <option value="VR">VR</option>
+  </select>
+
+<button type="button" id="btn-create-card" class="btn btn-primary text-center mt-3">Continuar</button>

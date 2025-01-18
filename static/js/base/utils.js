@@ -1,6 +1,7 @@
 function collectFormData(formId) {
     var formData = {};
-    
+    const csrf = getCsfrToken()
+    formData['csrfmiddlewaretoken'] = csrf
     // Itera sobre todos os elementos do formulário
     $("#" + formId).find("input, textarea").each(function() {
         var inputType = $(this).attr("type");
@@ -77,7 +78,7 @@ function clearFormById(form_id) {
     }
 
     // Limpar campos de texto, e-mail e textarea dentro do formulário
-    form.find('input[type="text"], input[type="email"], textarea').val('');
+    form.find('input[type="text"], input[type="email"], textarea,input[type="number"]').val('');
 
     // Limpar selects dentro do formulário
     form.find('select').prop('selectedIndex', 0);
@@ -229,7 +230,6 @@ async function get_banks(){
         'GET',
     ).then((response)=>{
         if(response.status){
-            console.log(response.data)
             create_bank_table(response.data.bancos)
 
         }
@@ -243,7 +243,6 @@ function create_bank_table(data, empty = true) {
         table.empty();
     }
     for (const bank in data) {
-        console.log(data)
 
         const bank_active = data[bank]['is_active']
 
@@ -331,21 +330,21 @@ function create_bank_table(data, empty = true) {
 
 
 async function updateBank(bankId){
-    const csrf_token = getCsfrToken()
-    data = {
-        "csrfmiddlewaretoken":csrf_token
-    }
+    const data = collectFormData("form-create-bank")
     const response = await ajaxFunction(
         'api/update/'+bankId,
         'POST',
         data
     )
-
+    const status = response.status
     if(response.status){
         get_banks()
-        $('#btn-close-update-bank').click()
-        showAlert(response.message,true)
     }
+
+    clearFormById("form-create-bank")
+    $('#btn-close-create-bank').click()
+    showAlert(response.message,status)
+    
     return response
 }
 
