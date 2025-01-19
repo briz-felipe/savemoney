@@ -24,5 +24,6 @@ urlpatterns = [
     path("",include("users.urls"),name="users"),
     path("home/",include("home.urls"),name="home"),
     path("bank/",include("banks.urls"),name="bank"),
+    path("cards/",include("cards.urls"),name="cards"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

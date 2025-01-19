@@ -1,15 +1,7 @@
 from django.http import JsonResponse
 from banks.models import Banks
 from banks.entity import BankEntity
-
-
-def data_serializer(data):
-    data.pop('csrfmiddlewaretoken')
-    # Filtrar as chaves com valores vazios
-    invalid_fields = {key.split('_')[1]: value for key, value in data.items() if key != 'bank_number' and value == ''}
-    data = {key.split('_')[1]: value for key, value in data.items()}
-    return data,invalid_fields
-
+from src.data import data_serializer
 
 def process_bank(data: dict, user, operation_function):
     """

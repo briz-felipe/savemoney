@@ -1,14 +1,17 @@
 function collectFormData(formId) {
     var formData = {};
-    const csrf = getCsfrToken()
-    formData['csrfmiddlewaretoken'] = csrf
+    const csrf = getCsfrToken();
+    formData['csrfmiddlewaretoken'] = csrf;
+
     // Itera sobre todos os elementos do formulário
-    $("#" + formId).find("input, textarea").each(function() {
+    $("#" + formId).find("input, textarea, select").each(function() { // Inclui select
         var inputType = $(this).attr("type");
         var inputName = $(this).attr("name");
 
         // Pega o valor dependendo do tipo do campo
-        if (inputType === "color") {
+        if ($(this).is("select")) {
+            formData[inputName] = $(this).val();  // Valor selecionado no select
+        } else if (inputType === "color") {
             formData[inputName] = $(this).val();  // Cor selecionada
         } else if (inputType === "checkbox" || inputType === "radio") {
             formData[inputName] = $(this).is(":checked");  // Se estiver checado
@@ -16,7 +19,7 @@ function collectFormData(formId) {
             formData[inputName] = $(this).val();  // Para outros tipos (text, number, textarea)
         }
     });
-    
+
     return formData;
 }
 
@@ -327,7 +330,25 @@ function create_bank_table(data, empty = true) {
 
 }
 
+async function createCard(bankId){
+    const data = collectFormData("form-create-card")
+    const response = await ajaxFunction(
+        '/cards/api/create/'+bankId,
+        'POST',
+        data
+    )
+    const status = response.status
+    if(!status && 'empty_fields' in response){
+        formCheckByDict(response.empty_fields)
+        return
+    }
 
+    clearFormById("form-create-card")
+    $('#btn-close-create-card').click()
+    showAlert(response.message,status)
+    
+    return response
+}
 
 async function updateBank(bankId){
     const data = collectFormData("form-create-bank")

@@ -6,11 +6,13 @@
     <input id="card_name" name="card_name" type="text" class="form-control">
 </div>
 
-<select id="select-card" class="form-select" aria-label="card type">
+<label for="card_type">Tipo de pagamento:</label>
+<select id="select-card" name="card_type" class="form-select" aria-label="card type">
     <option value="debit" selected>Débito</option>
     <option value="credit">Crédito</option>
     <option value="VA">VA</option>
     <option value="VR">VR</option>
+    <option value="VR">Outro</option>
   </select>
 
 <button type="button" id="btn-create-card" class="btn btn-primary text-center mt-3">Continuar</button>

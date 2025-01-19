@@ -66,6 +66,7 @@ $(document).ready(()=>{
 
         $("#model-create-card").modal("show");
         $('#model-create-card').removeAttr('aria-hidden');
+        setEventById("btn-create-card", "createCard", { id: bankId });
         
 
     });
