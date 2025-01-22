@@ -18,7 +18,7 @@ def get_banks(request):
 
 def get_bank(request,bank_id):
     context = {}
-    context['banco'] = Banks.objects.filter(id=bank_id).values("name","description","color").first()
+    context['banco'] = Banks.objects.filter(id=bank_id).values("name","description","color","number").first()
     context['banco'] = {f'bank_{k}':v for k,v in context['banco'].items()}
     return JsonResponse({
         'status':True,
