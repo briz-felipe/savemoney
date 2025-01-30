@@ -4,6 +4,30 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from cards.models import Cards
 from banks.models import Banks
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def get_cards(request, bank_id):
+    bank = get_object_or_404(Banks, id=bank_id)
+    cards = Cards.objects.filter(bank=bank).order_by('-created_at')
+    
+    # Montando a lista de cards com o nome concatenado
+    cards_list = [
+        {
+            "name": card["name"],
+            "type": card["type"],
+            "id": card["id"],
+            "is_active": card["is_active"],
+            "created_at": card["created_at"],
+            "label": f"{card["name"]}({card['bank__name']} {card['type']})"
+        }
+        for card in cards.values("id","is_active","name", "type", "bank__name","created_at")
+    ]
+    
+    return JsonResponse({"cards": cards_list})
+
+    
 
 @require_http_methods(["POST"])
 def update_or_create(request, bank_id):

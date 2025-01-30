@@ -210,7 +210,6 @@ function showAlert(msg,status){
 
 // Define o evento no botão dinamicamente
 function setEventById(elementId, functionName, data) {
-    console.log("Entrou " + elementId);
     const element = $("#" + elementId);
 
     // Montar os parâmetros para a função
@@ -239,6 +238,40 @@ async function get_banks(){
     })
 };
 
+function table_card(data,empty){
+    const table = $("#cards-tables")
+    if (empty) {
+        table.empty();
+    }
+    for (const card in data) {
+        table.append(`
+        <div class="col-md-4">
+            <div class="card p-2 mb-4 shadow-sm rounded">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        
+                        <h3 class="mb-0">${data[card]['type']}</h3>
+                        <a
+                            id="delete_card_btn_${data[card]['id']}"
+                            type="button"
+                            class="btn btn-outline-danger text-center"
+                            title="Deletar bank"
+                        >
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </div>
+                    <hr>
+                    <div>
+                    <small class="text-muted" >${data[card]['name']}</small>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        `)
+
+    }
+    
+}
 
 function create_bank_table(data, empty = true) {
     const table = $("#bank_table")
@@ -257,7 +290,7 @@ function create_bank_table(data, empty = true) {
 
             <!-- Cabeçalho do Card -->
             <!-- Botões de Ação -->
-            <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex justify-content-between mb-3">
                 
                 <!-- Ícone Dinâmico com Cor -->
                 <i class="bi bi-circle-fill" 
@@ -279,9 +312,10 @@ function create_bank_table(data, empty = true) {
                     <a
                         id="add_card_${data[bank]['id']}"
                         type="button"
-                        class="btn btn-outline-secondary"
+                        class="btn btn-outline-secondary icon-circle"
                         title="add cartao"
                     >
+                        <!-- <span class="badge">10</span> -->
                         <i class="bi bi-credit-card-2-back-fill"></i>
                     </a>
                     
@@ -308,11 +342,14 @@ function create_bank_table(data, empty = true) {
                 </div>
             </div>
             <div class="d-flex justify-content-between mb-4">
-            
+
                 <!-- Título do Card -->
                 <h3 class="mb-0">${data[bank]['name']}</h3>
 
-
+               <!--  <div class="icon-circle">
+                  <i class="bi bi-credit-card-2-back-fill"></i>
+                </div> -->
+            
             </div>
 
             <hr>
@@ -327,6 +364,15 @@ function create_bank_table(data, empty = true) {
         `
         )
     };
+
+}
+
+async function getCards(bankId){
+    const response = await ajaxFunction(
+        '/cards/api/'+bankId,
+        'POST',
+    )
+    return response
 
 }
 

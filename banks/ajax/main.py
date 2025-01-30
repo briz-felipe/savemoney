@@ -2,13 +2,16 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from banks.entity import BankEntity
 from banks.models import Banks
+from cards.models import Cards
 from banks.ajax.utils import data_serializer,process_bank
 from django.shortcuts import get_object_or_404
 from datetime import datetime
+from django.db.models import Count
+
 
 @login_required
 def get_banks(request):
-    banks = Banks.objects.filter(user=request.user).values()
+    banks = Banks.objects.filter(user=request.user).values("id","name","description","color","number","is_active")
     context = {}
     context['bancos'] = list(banks)    
     return JsonResponse({

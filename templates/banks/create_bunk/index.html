@@ -4,6 +4,24 @@
 {% block title %}Bancos - SaveMoney{% endblock %}
 
 {% block content %}
+
+<style>
+
+    .badge {
+        position: absolute;
+        top: -5px;
+        right: -6px;
+        font-size: 12px;
+        background-color: #dc3545; /* Red color */
+        color: #fff; /* White text */
+        border-radius: 50%;
+        padding: 2px 2px;
+        min-width: 17px;
+        text-align: center;
+        margin-right: 5px;
+    }
+</style>
+
 <div class="container mt-5">
     <h1 class="d-flex justify-content-center">
         Meus bancos 
@@ -26,6 +44,7 @@
     </div>
 </div>
 <script src='{% static "js/bank/main.js" %}' language="JavaScript" type="text/javascript"></script>
+<script src='{% static "js/cards/main.js" %}' language="JavaScript" type="text/javascript"></script>
 {% include "modals/bank/create.html" %}
 {% include "modals/bank/delete.html" %}
 {% include "modals/cards/create.html" %}

@@ -60,12 +60,20 @@ $(document).ready(()=>{
     
     $(document).on("click", "[id^='add_card_']", function () {
         const buttonId = $(this).attr("id");
-
         // Extrair o 'bankid' do final do ID do botão
         const bankId = buttonId.split("_").pop();
-
+        
         $("#model-create-card").modal("show");
         $('#model-create-card').removeAttr('aria-hidden');
+        getCards(bankId).then(response=>{
+            const cards = response['cards']
+            if(cards.length === 0){
+                $("#table-cards").hide()
+            }else{
+                $("#table-cards").show()
+                table_card(response['cards'],true)
+            }
+        })
         setEventById("btn-create-card", "createCard", { id: bankId });
         
 

@@ -14,6 +14,7 @@ class Cards(models.Model):
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     name = models.CharField(max_length=100, help_text="Nickname for the card")
     editor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="edited_cards")
+    is_active = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
